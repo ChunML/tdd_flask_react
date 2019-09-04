@@ -16,6 +16,13 @@ def recreate_db():
     db.session.commit()
 
 
+@cli.command('seed_db')
+def seed_db():
+    db.session.add(User(username='trung', email='chun@email.com'))
+    db.session.add(User(username='nguyen', email='nguyen@email.com'))
+    db.session.commit()
+
+
 @cli.command()
 def test():
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
