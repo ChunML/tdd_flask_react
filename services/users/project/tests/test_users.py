@@ -17,7 +17,8 @@ class TestUserService(BaseTestCase):
             '/users',
             data=json.dumps({
                 'username': 'chun',
-                'email': 'chun@email.com'
+                'email': 'chun@email.com',
+                'password': 'password'
             }),
             content_type='application/json')
         data = json.loads(response.data.decode())
@@ -50,7 +51,8 @@ class TestUserService(BaseTestCase):
             '/users',
             data=json.dumps({
                 'username': 'chun',
-                'email': 'chun@email.com'
+                'email': 'chun@email.com',
+                'password': 'password'
             }),
             content_type='application/json')
 
@@ -58,7 +60,8 @@ class TestUserService(BaseTestCase):
             '/users',
             data=json.dumps({
                 'username': 'chun',
-                'email': 'chun@email.com'
+                'email': 'chun@email.com',
+                'password': 'password'
             }),
             content_type='application/json')
         data = json.loads(response.data.decode())
@@ -68,7 +71,7 @@ class TestUserService(BaseTestCase):
         self.assertIn('fail', data['status'])
 
     def test_single_user(self):
-        user = add_user('chun', 'chun@email.com')
+        user = add_user('chun', 'chun@email.com', 'password')
         response = self.client.get(f'/users/{user.id}')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
@@ -91,8 +94,8 @@ class TestUserService(BaseTestCase):
         self.assertIn('fail', data['status'])
 
     def test_all_users(self):
-        add_user('chun', 'chun@email.com')
-        add_user('trung', 'trung@email.com')
+        add_user('chun', 'chun@email.com', 'password')
+        add_user('trung', 'trung@email.com', 'password')
         response = self.client.get('/users')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
@@ -110,8 +113,8 @@ class TestUserService(BaseTestCase):
         self.assertIn('<p>No users!</p>', response.data.decode())
 
     def test_main_with_users(self):
-        add_user('chun', 'chun@email.com')
-        add_user('tran', 'tran@email.com')
+        add_user('chun', 'chun@email.com', 'password')
+        add_user('tran', 'tran@email.com', 'password')
         response = self.client.get('/')
         data = response.data.decode()
         self.assertEqual(response.status_code, 200)
@@ -123,7 +126,10 @@ class TestUserService(BaseTestCase):
     def test_main_add_user(self):
         response = self.client.post(
             '/',
-            data=dict(username='chun', email='chun@email.com'),
+            data=dict(
+                username='chun',
+                email='chun@email.com',
+                password='password'),
             follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         data = response.data.decode()

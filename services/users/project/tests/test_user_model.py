@@ -8,32 +8,39 @@ from sqlalchemy.exc import IntegrityError
 
 class TestUserModel(BaseTestCase):
     def test_add_user(self):
-        user = add_user('chun', 'chun@email.com')
+        user = add_user('chun', 'chun@email.com', 'password')
         self.assertTrue(user.id)
         self.assertEqual(user.username, 'chun')
         self.assertEqual(user.email, 'chun@email.com')
         self.assertTrue(user.active)
 
     def test_add_user_duplicate_username(self):
-        add_user('chun', 'chun@email.com')
+        add_user('chun', 'chun@email.com', 'password')
         duplicate_user = User(
             username='chun',
-            email='chun2@email.com')
+            email='chun2@email.com',
+            password='password')
         db.session.add(duplicate_user)
         self.assertRaises(IntegrityError, db.session.commit)
 
     def test_add_user_duplicate_email(self):
-        add_user('chun', 'chun@email.com')
+        add_user('chun', 'chun@email.com', 'password')
         duplicate_user = User(
             username='chun2',
-            email='chun@email.com')
+            email='chun@email.com',
+            password='password')
         db.session.add(duplicate_user)
         with self.assertRaises(IntegrityError):
             db.session.commit()
 
     def test_to_json(self):
-        user = add_user('chun', 'chun@email.com')
+        user = add_user('chun', 'chun@email.com', 'password')
         self.assertTrue(isinstance(user.to_json(), dict))
+
+    def test_passwords_are_random(self):
+        user_one = add_user('chun', 'chun@email.com', 'password')
+        user_two = add_user('chun2', 'chun2@email.com', 'password')
+        self.assertNotEqual(user_one.password, user_two.password)
 
 
 if __name__ == '__main__':
