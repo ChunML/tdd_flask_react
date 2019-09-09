@@ -4,3 +4,4 @@ venv
 Dockerfile
 Dockerfile-prod
 htmlcov
+migrations
