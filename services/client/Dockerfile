@@ -9,4 +9,4 @@ COPY package-lock.json .
 RUN npm ci
 RUN npm install react-scripts@2.1.8 -g --silent
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

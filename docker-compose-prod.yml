@@ -29,7 +29,7 @@ services:
   client:
     container_name: client
     build:
-      context: ./services/client
+      context: ./services/new_client
       dockerfile: Dockerfile-prod
       args:
         - NODE_ENV=production
