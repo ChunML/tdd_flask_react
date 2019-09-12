@@ -1,12 +1,14 @@
 FROM node:12.10.0-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 
-ENV path /usr/src/app/node_modules/.bin:$PATH
+ENV path /usr/src/node_modules/.bin:$PATH
 
 COPY package.json .
-COPY package-lock.json .
-RUN npm ci
-RUN npm install react-scripts@2.1.8 -g --silent
+COPY yarn.lock .
+RUN yarn
+RUN yarn global add react-scripts@2.1.8 --silent
+
+COPY . .
 
 CMD ["yarn", "start"]

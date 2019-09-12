@@ -30,7 +30,7 @@ services:
 
   client:
     build:
-      context: ./services/new_client
+      context: ./services/client
       dockerfile: Dockerfile
     volumes:
       - ./services/new_client:/usr/src
