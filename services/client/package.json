@@ -6,7 +6,8 @@
   "license": "MIT",
   "dependencies": {
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "react-router-dom": "^5.0.1"
   },
   "scripts": {
     "start": "webpack-dev-server --host 0.0.0.0",

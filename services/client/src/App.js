@@ -1,6 +1,8 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import UsersList from './components/UsersList';
 import AddUser from './components/AddUser';
+import About from './components/About';
 
 export default class App extends React.Component {
   constructor() {
@@ -63,20 +65,27 @@ export default class App extends React.Component {
       <section className='section'>
         <div className='container'>
           <div className='columns'>
-            <div className='column is-one-third'>
+            <div className='column is-half'>
               <br />
-              <h1 className='title is-1'>All Users</h1>
-              <hr /><br />
-              <AddUser
-                addUser={this.addUser}
-                username={this.state.username}
-                email={this.state.email}
-                handleChange={this.handleChange}
-              />
-              <br /><br />
-              <UsersList
-                users={this.state.users}
-              />
+              <Switch>
+                <Route exact path='/' render={() => (
+                  <div>
+                    <h1 className='title is-1'>All Users</h1>
+                    <hr /><br />
+                    <AddUser
+                      addUser={this.addUser}
+                      username={this.state.username}
+                      email={this.state.email}
+                      handleChange={this.handleChange}
+                    />
+                    <br /><br />
+                    <UsersList
+                      users={this.state.users}
+                    />
+                  </div>
+                )} />
+                <Route exact path='/about' component={About} />
+              </Switch>
             </div>
           </div>
         </div>
