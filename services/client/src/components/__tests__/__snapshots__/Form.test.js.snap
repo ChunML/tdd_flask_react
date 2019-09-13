@@ -36,6 +36,11 @@ exports[`Login Form renders a snapshot properly 1`] = `
         value=""
       />
     </div>
+    <input
+      className="button is-primary is-medium is-fullwidth"
+      type="submit"
+      value="Submit"
+    />
   </form>
 </div>
 `;
@@ -88,6 +93,11 @@ exports[`Register Form renders a snapshot properly 1`] = `
         value=""
       />
     </div>
+    <input
+      className="button is-primary is-medium is-fullwidth"
+      type="submit"
+      value="Submit"
+    />
   </form>
 </div>
 `;
