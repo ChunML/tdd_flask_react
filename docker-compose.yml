@@ -33,7 +33,7 @@ services:
       context: ./services/client
       dockerfile: Dockerfile
     volumes:
-      - ./services/new_client:/usr/src
+      - ./services/client:/usr/src
       - /usr/src/node_modules
     ports:
       - 8081:8080
