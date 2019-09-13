@@ -6,6 +6,7 @@ import About from './components/About';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
 import Logout from './components/Logout';
+import UserStatus from './components/UserStatus';
 
 export default class App extends React.Component {
   constructor() {
@@ -128,7 +129,10 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar title={this.state.title} />
+        <Navbar
+          title={this.state.title}
+          isAuthenticated={this.state.isAuthenticated}
+        />
         <section className='section'>
           <div className='container'>
             <div className='columns'>
@@ -176,6 +180,11 @@ export default class App extends React.Component {
                       isAuthenticated={this.state.isAuthenticated}
                     />
                   )}/>
+                  <Route exact path='/status' render={() => (
+                    <UserStatus
+                      isAuthenticated={this.state.isAuthenticated}
+                    />
+                  )} />
                 </Switch>
               </div>
             </div>
