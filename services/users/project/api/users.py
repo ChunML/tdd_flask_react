@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template
 from flask_restful import Resource, Api
 from project import db
 from project.api.models import User
+from project.api.utils import authenticate_restful
 from sqlalchemy import exc
 
 
@@ -31,6 +32,7 @@ class UsersPing(Resource):
 
 
 class UsersList(Resource):
+    method_decorators = {'post': [authenticate_restful]}
     def get(self):
         users = User.query.all()
         response_object = {
@@ -39,7 +41,7 @@ class UsersList(Resource):
         }
         return response_object, 200
 
-    def post(self):
+    def post(self, response):
         post_data = request.get_json()
         response_object = {
             'status': 'fail',
