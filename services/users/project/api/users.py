@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template
 from flask_restful import Resource, Api
 from project import db
 from project.api.models import User
-from project.api.utils import authenticate_restful
+from project.api.utils import authenticate_restful, is_admin
 from sqlalchemy import exc
 
 
@@ -33,6 +33,7 @@ class UsersPing(Resource):
 
 class UsersList(Resource):
     method_decorators = {'post': [authenticate_restful]}
+
     def get(self):
         users = User.query.all()
         response_object = {
@@ -41,12 +42,16 @@ class UsersList(Resource):
         }
         return response_object, 200
 
-    def post(self, response):
+    def post(self, resp):
         post_data = request.get_json()
         response_object = {
             'status': 'fail',
             'message': 'Invalid payload.'
         }
+        if not is_admin(resp):
+            response_object['message'] = \
+                'You do not have the permission to do that.'
+            return response_object, 401
         if not post_data:
             return response_object, 400
         username = post_data.get('username')

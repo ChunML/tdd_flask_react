@@ -202,6 +202,7 @@ class TestAuthBlueprint(BaseTestCase):
         self.assertEqual('chun', data['data']['username'])
         self.assertEqual('chun@email.com', data['data']['email'])
         self.assertTrue(data['data']['active'])
+        self.assertFalse(data['data']['admin'])
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_status(self):

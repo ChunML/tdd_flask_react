@@ -1,9 +1,5 @@
 FROM python:3.7.4-slim
 
-# ENV http_proxy http://172.23.112.52:8080
-# ENV https_proxy https://172.23.112.52:8080
-# ENV ftp_proxy ftp://172.23.112.52:8080
-
 RUN apt-get update && \
     apt-get -y install netcat && \
     apt-get clean
