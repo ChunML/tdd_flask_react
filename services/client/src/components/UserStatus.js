@@ -8,7 +8,9 @@ export default class UserStatus extends React.Component {
     this.state = {
       email: '',
       id: '',
-      username: ''
+      username: '',
+      active: '',
+      admin: ''
     };
 
     this.getUserStatus = this.getUserStatus.bind(this);
@@ -34,7 +36,9 @@ export default class UserStatus extends React.Component {
         this.setState({
           email: res.data.email,
           id: res.data.id,
-          username: res.data.username
+          username: res.data.username,
+          active: String(res.data.active),
+          admin: String(res.data.admin)
         });
       })
       .catch(err => console.log(err));
@@ -49,9 +53,11 @@ export default class UserStatus extends React.Component {
     return (
       <div>
         <ul>
-          <li><strong>User ID:</strong>{this.state.id}</li>
-          <li><strong>Email:</strong>{this.state.email}</li>
-          <li><strong>Username:</strong>{this.state.username}</li>
+          <li><strong>User ID:</strong> {this.state.id}</li>
+          <li><strong>Email:</strong> {this.state.email}</li>
+          <li><strong>Username:</strong> {this.state.username}</li>
+          <li><strong>Active:</strong> {this.state.active}</li>
+          <li><strong>Admin:</strong> {this.state.admin}</li>
         </ul>
       </div>
     );
