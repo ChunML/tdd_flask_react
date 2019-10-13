@@ -3,6 +3,11 @@ sudo: required
 services:
   - docker
 
+addons:
+  apt:
+    packages:
+      - libgconf-2-4
+
 env:
   DOCKER_COMPOSE_VERSION: 1.23.2
 
@@ -14,7 +19,7 @@ before_install:
 
 before_script:
   - export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
-  - yarn install
+  - yarn
 
 script:
   - bash test.sh
