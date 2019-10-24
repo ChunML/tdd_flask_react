@@ -16,7 +16,7 @@ export default class UserStatus extends React.Component {
     this.getUserStatus = this.getUserStatus.bind(this);
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     if (this.props.isAuthenticated) {
       this.getUserStatus();
     }

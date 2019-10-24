@@ -32,6 +32,11 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    if (window.localStorage.getItem('authToken')) {
+      this.setState({ isAuthenticated: true }, () => {
+        this.getUsers();
+      });
+    }
     this.getUsers();
   }
 
