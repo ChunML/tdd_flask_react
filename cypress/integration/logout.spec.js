@@ -2,13 +2,14 @@ const randomstring = require('randomstring');
 
 const username = randomstring.generate();
 const email = `${username}@email.com`;
+const password = 'ninechars';
 
 it('should allow a user to sign in', () => {
   cy
     .visit('/register')
     .get('input[name="username"]').type(username)
     .get('input[name="email"]').type(email)
-    .get('input[name="password"]').type('test')
+    .get('input[name="password"]').type(password)
     .get('input[type="submit"]').click();
 
   cy.get('.navbar-burger').click();
@@ -17,7 +18,7 @@ it('should allow a user to sign in', () => {
   cy
     .get('a').contains('Log In').click()
     .get('input[name="email"]').type(email)
-    .get('input[name="password"]').type('test')
+    .get('input[name="password"]').type(password)
     .get('input[type="submit"]').click()
     .wait(100);
 

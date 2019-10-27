@@ -4,7 +4,7 @@ fails=""
 
 inspect() {
   if [ $1 -ne 0 ]; then
-    fails="${fails} 2"
+    fails="${fails} $2"
   fi
 }
 

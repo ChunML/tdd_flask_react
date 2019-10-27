@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import UsersList from './components/UsersList';
 import About from './components/About';
 import Navbar from './components/Navbar';
-import Form from './components/Form';
+import Form from './components/forms/Form';
 import Logout from './components/Logout';
 import UserStatus from './components/UserStatus';
 

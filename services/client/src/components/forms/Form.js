@@ -1,5 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { registerFormRules, loginFormRules } from './form-rules.js';
+import FormErrors from './FormErrors';
 
 class Form extends React.Component {
   constructor(props) {
@@ -10,7 +12,10 @@ class Form extends React.Component {
         username: '',
         email: '',
         password: ''
-      }
+      },
+      registerFormRules: registerFormRules,
+      loginFormRules: loginFormRules,
+      valid: false
     };
 
     this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
@@ -19,11 +24,13 @@ class Form extends React.Component {
 
   componentDidMount() {
     this.clearForm();
+    this.validateForm();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.formType !== nextProps.formType) {
       this.clearForm();
+      this.validateForm();
     }
   }
 
@@ -37,6 +44,74 @@ class Form extends React.Component {
     });
   }
 
+  allTrue() {
+    let formRules = loginFormRules;
+    if (this.props.formType === 'Register') {
+      formRules = registerFormRules;
+    }
+    for (const rule of formRules) {
+      if (!rule.valid) return false;
+    }
+    return true;
+  }
+
+  resetRules() {
+    const {registerFormRules, loginFormRules} = this.state;
+    for (const rule of registerFormRules) {
+      rule.valid = false;
+    }
+
+    for (const rule of loginFormRules) {
+      rule.valid = false;
+    }
+    this.setState({registerFormRules, loginFormRules, valid: false});
+  }
+
+  validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+  validateForm() {
+    const self = this;
+
+    const formData = this.state.formData;
+    self.resetRules();
+
+    if (self.props.formType === 'Register') {
+      const formRules = self.state.registerFormRules;
+      if (formData.username.length > 5) {
+        formRules[0].valid = true;
+      }
+      if (formData.email.length > 5) {
+        formRules[1].valid = true;
+      }
+      if (this.validateEmail(formData.email)) {
+        formRules[2].valid = true;
+      }
+      if (formData.password.length > 8) {
+        formRules[3].valid = true;
+      }
+      self.setState({registerFormRules: formRules});
+      if (self.allTrue()) {
+        self.setState({valid: true});
+      }
+    }
+    if (self.props.formType === 'Login') {
+      const formRules = this.state.loginFormRules;
+      if (formData.email.length > 0) {
+        formRules[0].valid = true;
+      }
+      if (formData.password.length > 0) {
+        formRules[1].valid = true;
+      }
+      self.setState({loginFormRules: formRules});
+      if (self.allTrue()) {
+        self.setState({valid: true});
+      }
+    }
+  }
+
   handleFormChange(e) {
     const { name, value } = e.target;
     this.setState(prev => ({
@@ -44,7 +119,7 @@ class Form extends React.Component {
         ...prev.formData,
         [name]: value
       }
-    }));
+    }), () => this.validateForm());
   }
 
   handleUserFormSubmit(e) {
@@ -81,6 +156,12 @@ class Form extends React.Component {
       return <Redirect to='/' />;
     }
 
+    let formRules = this.state.loginFormRules;
+
+    if (formType === 'Register') {
+      formRules = this.state.registerFormRules;
+    }
+
     return (
       <div>
         {formType === 'Login' &&
@@ -90,6 +171,10 @@ class Form extends React.Component {
           <h1 className='title is-1'>Register</h1>
         }
         <hr/><br/>
+        <FormErrors
+          formType={ formType }
+          formRules={ formRules }
+        />
         <form onSubmit={e => this.handleUserFormSubmit(e)}>
           {formType === 'Register' &&
             <div className='field'>
@@ -130,6 +215,7 @@ class Form extends React.Component {
             type='submit'
             className='button is-primary is-medium is-fullwidth'
             value='Submit'
+            disabled={!this.state.valid}
           />
         </form>
       </div>
