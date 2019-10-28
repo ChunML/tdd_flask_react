@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Form from './components/forms/Form';
 import Logout from './components/Logout';
 import UserStatus from './components/UserStatus';
+import Message from './components/Message';
 
 export default class App extends React.Component {
   constructor() {
@@ -14,11 +15,14 @@ export default class App extends React.Component {
     this.state = {
       users: [],
       title: 'TrungTran',
-      isAuthenticated: false
+      isAuthenticated: false,
+      messageType: null,
+      messageName: null
     };
 
     this.loginUser = this.loginUser.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
+    this.createMessage = this.createMessage.bind(this);
   }
 
   componentDidMount() {
@@ -41,11 +45,19 @@ export default class App extends React.Component {
     window.localStorage.setItem('authToken', token);
     this.setState({ isAuthenticated: true });
     this.getUsers();
+    this.createMessage('Welcome!', 'success');
   }
 
   logoutUser() {
     window.localStorage.clear();
     this.setState({ isAuthenticated: false });
+  }
+
+  createMessage(messageName='sanity check', messageType='success') {
+    this.setState({
+      messageName,
+      messageType
+    });
   }
 
   render() {
@@ -57,6 +69,14 @@ export default class App extends React.Component {
         />
         <section className='section'>
           <div className='container'>
+            {
+              this.state.messageName && this.state.messageType && (
+                <Message
+                  messageName={this.state.messageName}
+                  messageType={this.state.messageType}
+                />
+              )
+            }
             <div className='columns'>
               <div className='column is-half'>
                 <br />
@@ -72,6 +92,7 @@ export default class App extends React.Component {
                       formType='Register'
                       isAuthenticated={this.state.isAuthenticated}
                       loginUser={this.loginUser}
+                      createMessage={this.createMessage}
                     />
                   )} />
                   <Route exact path='/login' render={() => (
@@ -79,6 +100,7 @@ export default class App extends React.Component {
                       formType='Login'
                       isAuthenticated={this.state.isAuthenticated}
                       loginUser={this.loginUser}
+                      createMessage={this.createMessage}
                     />
                   )} />
                   <Route exact path='/logout' render={() => (

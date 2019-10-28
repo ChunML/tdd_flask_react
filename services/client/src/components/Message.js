@@ -1,0 +1,10 @@
+import React from 'react';
+
+const Message = props => (
+  <div className={`notification is-${props.messageType}`}>
+    <button className='delete'></button>
+    <span>{props.messageName}</span>
+  </div>
+);
+
+export default Message;

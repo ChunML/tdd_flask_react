@@ -124,7 +124,7 @@ class Form extends React.Component {
 
   handleUserFormSubmit(e) {
     e.preventDefault();
-    const { formType, loginUser } = this.props;
+    const { formType, loginUser, createMessage } = this.props;
     const data = {
       email: this.state.formData.email,
       password: this.state.formData.password
@@ -143,10 +143,21 @@ class Form extends React.Component {
     })
       .then(res => res.json())
       .then(res => {
+        if (res.status === 'fail') {
+          throw new Error('Fetch failed.');
+        }
         this.clearForm();
         loginUser(res.auth_token);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if (formType === 'Login') {
+          createMessage('User does not exist.', 'danger');
+        }
+
+        if (formType === 'Register') {
+          createMessage('That user already exists.', 'danger');
+        }
+      });
   }
 
   render() {
