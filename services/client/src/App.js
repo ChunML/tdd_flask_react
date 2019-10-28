@@ -23,6 +23,7 @@ export default class App extends React.Component {
     this.loginUser = this.loginUser.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
     this.createMessage = this.createMessage.bind(this);
+    this.removeMessage = this.removeMessage.bind(this);
   }
 
   componentDidMount() {
@@ -58,6 +59,17 @@ export default class App extends React.Component {
       messageName,
       messageType
     });
+
+    setTimeout(() => {
+      this.removeMessage();
+    }, 3000);
+  }
+
+  removeMessage() {
+    this.setState({
+      messageName: null,
+      messageType: null
+    });
   }
 
   render() {
@@ -74,6 +86,7 @@ export default class App extends React.Component {
                 <Message
                   messageName={this.state.messageName}
                   messageType={this.state.messageType}
+                  removeMessage={this.removeMessage}
                 />
               )
             }
