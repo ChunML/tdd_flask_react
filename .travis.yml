@@ -22,4 +22,4 @@ before_script:
   - yarn
 
 script:
-  - bash test.sh
+  - bash test.sh stage
