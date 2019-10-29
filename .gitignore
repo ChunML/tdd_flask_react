@@ -5,3 +5,4 @@ htmlcov
 node_modules
 coverage
 screenshots
+__snapshots__
